@@ -29,12 +29,12 @@ COPY ./app /app
 WORKDIR /app
 
 # pip install packages for django-app
-RUN apk add --no-cache build-base gcc
+RUN apk add --no-cache build-base gcc rust cargo
 RUN apk add --no-cache git openssh-client
 RUN apk add --no-cache postgis gdal proj
 RUN apk add --no-cache \
-    py3-pip python3-dev \
     musl-dev \
+    libecpg-dev \
     libressl-dev \
     libffi-dev \
     libxml2-dev \
@@ -50,12 +50,19 @@ RUN apk add --no-cache \
     tk-dev \
     zlib-dev
 
-RUN pip install --upgrade pip && pip install \
-    "psycopg2-binary==2.9.6" \
-    "lxml==4.9.2" \
-    "grpcio==1.57.0" \
-    "pandas==2.0.2" \
-    "Pillow==9.3.0"
+RUN apk add --no-cache \
+    python3-dev \
+    py3-pip \
+    py3-psycopg2 \
+    py3-numpy \
+    py3-grpcio \
+    py3-pillow \
+    py3-pandas \
+    py3-lxml
+
+RUN pip install --upgrade pip \
+    "Django>=4.2,<4.3" \
+    "daphne>=4.0,<4.1"
 
 RUN ln -s /usr/lib/libproj.so.?? /usr/lib/libproj.so \
     && ln -s /usr/lib/libgdal.so.?? /usr/lib/libgdal.so \
