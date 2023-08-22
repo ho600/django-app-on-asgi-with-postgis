@@ -34,7 +34,7 @@ RUN apk add --no-cache git openssh-client
 RUN apk add --no-cache postgis gdal proj
 RUN apk add --no-cache \
     musl-dev \
-    libressl-dev \
+    postgresql-dev \
     libffi-dev \
     libxml2-dev \
     libxslt-dev \
