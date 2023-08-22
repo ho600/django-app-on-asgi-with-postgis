@@ -2,8 +2,10 @@ FROM python:3.10-alpine
 
 LABEL maintainer="Amon Ho <hoamon@ho600.com>"
 
+EXPOSE 80
+
 # # Expose 443, in case of LTS / HTTPS
-EXPOSE 8000
+EXPOSE 443
 
 # Install Supervisord
 RUN apk add --no-cache supervisor
