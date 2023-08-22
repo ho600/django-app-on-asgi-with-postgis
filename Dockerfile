@@ -1,4 +1,4 @@
-FROM python:3.10-alpine
+FROM ho600/nginx-on-alpine:python-3.10
 
 LABEL maintainer="Amon Ho <hoamon@ho600.com>"
 
@@ -11,6 +11,20 @@ EXPOSE 443
 RUN apk add --no-cache supervisor
 # Custom Supervisord config
 COPY supervisord-alpine.ini /etc/supervisor.d/supervisord.ini
+
+# By default, allow unlimited file sizes, modify it to limit the file sizes
+# To have a maximum of 1 MB (Nginx's default) change the line to:
+# ENV NGINX_MAX_UPLOAD 1m
+ENV NGINX_MAX_UPLOAD 0
+
+# By default, Nginx will run a single worker process, setting it to auto
+# will create a worker for each CPU core
+ENV NGINX_WORKER_PROCESSES 1
+
+# By default, Nginx listens on port 80.
+# To modify this, change LISTEN_PORT environment variable.
+# (in a Dockerfile or with an option for `docker run`)
+ENV LISTEN_PORT 80
 
 # Used by the entrypoint to explicitly add installed Python packages 
 # and uWSGI Python packages to PYTHONPATH otherwise uWSGI can't import Flask
