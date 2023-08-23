@@ -11,6 +11,8 @@ EXPOSE 443
 RUN apk add --no-cache supervisor
 # Custom Supervisord config
 COPY supervisord-alpine.ini /etc/supervisor.d/supervisord.ini
+COPY supervisord-nginx.ini /etc/supervisor.d/nginx.ini
+COPY supervisord-asgi.ini /etc/supervisor.d/asgi.ini
 
 # By default, allow unlimited file sizes, modify it to limit the file sizes
 # To have a maximum of 1 MB (Nginx's default) change the line to:
