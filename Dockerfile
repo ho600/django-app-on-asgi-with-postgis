@@ -1,4 +1,4 @@
-FROM ho600/nginx-on-alpine:python-3.10
+FROM ho600/nginx-on-alpine:python-3.14-nginx-1.30.5
 
 LABEL maintainer="Amon Ho <hoamon@ho600.com>"
 
@@ -17,20 +17,20 @@ COPY supervisord-asgi.ini /etc/supervisor.d/asgi.ini
 # By default, allow unlimited file sizes, modify it to limit the file sizes
 # To have a maximum of 1 MB (Nginx's default) change the line to:
 # ENV NGINX_MAX_UPLOAD 1m
-ENV NGINX_MAX_UPLOAD 0
+ENV NGINX_MAX_UPLOAD=0
 
 # By default, Nginx will run a single worker process, setting it to auto
 # will create a worker for each CPU core
-ENV NGINX_WORKER_PROCESSES 1
+ENV NGINX_WORKER_PROCESSES=1
 
 # By default, Nginx listens on port 80.
 # To modify this, change LISTEN_PORT environment variable.
 # (in a Dockerfile or with an option for `docker run`)
-ENV LISTEN_PORT 80
+ENV LISTEN_PORT=80
 
 # Used by the entrypoint to explicitly add installed Python packages 
 # and uWSGI Python packages to PYTHONPATH otherwise uWSGI can't import Flask
-ENV ALPINEPYTHON python3.10
+ENV ALPINEPYTHON=python3.14
 
 # Copy start.sh script that will check for a /app/prestart.sh script and run it before starting the app
 COPY start.sh /start.sh
@@ -78,7 +78,7 @@ RUN apk add --no-cache \
     py3-lxml
 
 RUN pip install --upgrade pip \
-    "Django>=4.2,<4.3" \
+    "Django>=5.2,<5.3" \
     "daphne>=4.0,<4.1"
 
 RUN ln -s /usr/lib/libproj.so.?? /usr/lib/libproj.so \
