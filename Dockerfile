@@ -1,4 +1,4 @@
-FROM ho600/nginx-on-alpine:python-3.14-nginx-1.30.5
+FROM ho600/nginx-on-alpine:python-3.14-nginx-1.30.6
 
 LABEL maintainer="Amon Ho <hoamon@ho600.com>"
 
@@ -79,7 +79,8 @@ RUN apk add --no-cache \
 
 RUN pip install --upgrade pip \
     "Django>=5.2,<5.3" \
-    "daphne>=4.0,<4.1"
+    "daphne>=4.0,<4.1" \
+    "certifi>=2026.10.19"
 
 RUN ln -s /usr/lib/libproj.so.?? /usr/lib/libproj.so \
     && ln -s /usr/lib/libgdal.so.?? /usr/lib/libgdal.so \
